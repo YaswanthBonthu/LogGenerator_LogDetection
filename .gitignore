@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+
+# SQLite / local data
+*.sqlite
+*.sqlite-journal
+*.sqlite3
+*.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & analysis output
+*.log
+analysis_result.json
+
+# Cursor
+.cursor/

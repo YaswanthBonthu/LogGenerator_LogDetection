@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyberLog Forge — Realistic Log Generator</title>
+  <meta name="description" content="Generate realistic multi-source security logs with configurable normal and attack patterns for testing and evaluation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="brand-icon">⚡</span>
+      <span class="brand-name">CyberLog <span class="brand-accent">Forge</span></span>
+      <span class="brand-tag">Log Generator v1.0</span>
+    </div>
+    <div class="topbar-actions">
+      <div class="stat-pill" id="stat-count">0 logs ready</div>
+      <button class="btn btn-secondary" id="btn-preview-toggle">👁 Preview</button>
+      <button class="btn btn-primary" id="btn-generate">⚡ Generate Logs</button>
+      <div class="export-group">
+        <button class="btn btn-export" id="btn-export-json">↓ JSON</button>
+        <button class="btn btn-export" id="btn-export-csv">↓ CSV</button>
+        <button class="btn btn-export" id="btn-export-syslog">↓ Syslog</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar Config -->
+    <aside class="sidebar">
+      <div class="sidebar-scroll">
+
+        <!-- Log Sources -->
+        <section class="config-section">
+          <h3 class="section-title">
+            <span class="section-icon">🗄</span> Log Sources
+          </h3>
+          <div class="source-grid">
+            <label class="source-card" id="src-auth">
+              <input type="checkbox" name="source" value="authentication" checked />
+              <span class="source-icon">🔐</span>
+              <span class="source-label">Authentication</span>
+            </label>
+            <label class="source-card" id="src-web">
+              <input type="checkbox" name="source" value="webserver" checked />
+              <span class="source-icon">🌐</span>
+              <span class="source-label">Web Server</span>
+            </label>
+            <label class="source-card" id="src-app">
+              <input type="checkbox" name="source" value="application" checked />
+              <span class="source-icon">⚙️</span>
+              <span class="source-label">Application</span>
+            </label>
+            <label class="source-card" id="src-fw">
+              <input type="checkbox" name="source" value="firewall" checked />
+              <span class="source-icon">🛡</span>
+              <span class="source-label">Firewall</span>
+            </label>
+            <label class="source-card" id="src-net">
+              <input type="checkbox" name="source" value="network" checked />
+              <span class="source-icon">📡</span>
+              <span class="source-label">Network</span>
+            </label>
+          </div>
+        </section>
+
+        <!-- Volume & Time -->
+        <section class="config-section">
+          <h3 class="section-title">
+            <span class="section-icon">📊</span> Volume & Time Range
+          </h3>
+          <div class="form-group">
+            <label class="form-label">Total Log Entries</label>
+            <div class="slider-row">
+              <input type="range" id="vol-slider" min="10" max="10000" value="500" step="10" />
+              <input type="number" id="vol-input" min="10" max="100000" value="500" class="num-input" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Start Date & Time</label>
+            <input type="datetime-local" id="time-start" class="dt-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">End Date & Time</label>
+            <input type="datetime-local" id="time-end" class="dt-input" />
+          </div>
+        </section>
+
+        <!-- Severity Mix -->
+        <section class="config-section">
+          <h3 class="section-title">
+            <span class="section-icon">🎚</span> Severity Mix
+          </h3>
+          <div class="severity-sliders">
+            <div class="sev-row">
+              <span class="sev-badge sev-info">INFO</span>
+              <input type="range" id="sev-info" min="0" max="100" value="60" class="sev-slider" />
+              <span class="sev-val" id="sev-info-val">60%</span>
+            </div>
+            <div class="sev-row">
+              <span class="sev-badge sev-warn">WARN</span>
+              <input type="range" id="sev-warn" min="0" max="100" value="25" class="sev-slider" />
+              <span class="sev-val" id="sev-warn-val">25%</span>
+            </div>
+            <div class="sev-row">
+              <span class="sev-badge sev-error">ERROR</span>
+              <input type="range" id="sev-error" min="0" max="100" value="10" class="sev-slider" />
+              <span class="sev-val" id="sev-error-val">10%</span>
+            </div>
+            <div class="sev-row">
+              <span class="sev-badge sev-critical">CRIT</span>
+              <input type="range" id="sev-critical" min="0" max="100" value="5" class="sev-slider" />
+              <span class="sev-val" id="sev-critical-val">5%</span>
+            </div>
+          </div>
+          <div class="sev-note" id="sev-note"></div>
+        </section>
+
+        <!-- Attack Patterns -->
+        <section class="config-section">
+          <h3 class="section-title">
+            <span class="section-icon">💀</span> Attack Patterns
+          </h3>
+          <div class="attack-list">
+
+            <div class="attack-item">
+              <div class="attack-header">
+                <label class="toggle-label">
+                  <input type="checkbox" class="attack-toggle" id="atk-bruteforce" checked />
+                  <span class="toggle-switch"></span>
+                  <span class="attack-name">🔨 Brute Force</span>
+                </label>
+                <span class="attack-tag atk-high">HIGH</span>
+              </div>
+              <div class="attack-controls" id="ctrl-bruteforce">
+                <label class="form-label small">Intensity</label>
+                <input type="range" class="intensity-slider" id="int-bruteforce" min="1" max="10" value="5" />
+                <span class="intensity-val" id="intval-bruteforce">5</span>
+              </div>
+            </div>
+
+            <div class="attack-item">
+              <div class="attack-header">
+                <label class="toggle-label">
+                  <input type="checkbox" class="attack-toggle" id="atk-portscan" checked />
+                  <span class="toggle-switch"></span>
+                  <span class="attack-name">🔍 Port Scan</span>
+                </label>
+                <span class="attack-tag atk-med">MED</span>
+              </div>
+              <div class="attack-controls" id="ctrl-portscan">
+                <label class="form-label small">Intensity</label>
+                <input type="range" class="intensity-slider" id="int-portscan" min="1" max="10" value="4" />
+                <span class="intensity-val" id="intval-portscan">4</span>
+              </div>
+            </div>
+
+            <div class="attack-item">
+              <div class="attack-header">
+                <label class="toggle-label">
+                  <input type="checkbox" class="attack-toggle" id="atk-sqli" checked />
+                  <span class="toggle-switch"></span>
+                  <span class="attack-name">💉 SQL Injection</span>
+                </label>
+                <span class="attack-tag atk-crit">CRIT</span>
+              </div>
+              <div class="attack-controls" id="ctrl-sqli">
+                <label class="form-label small">Intensity</label>
+                <input type="range" class="intensity-slider" id="int-sqli" min="1" max="10" value="3" />
+                <span class="intensity-val" id="intval-sqli">3</span>
+              </div>
+            </div>
+
+            <div class="attack-item">
+              <div class="attack-header">
+                <label class="toggle-label">
+                  <input type="checkbox" class="attack-toggle" id="atk-xss" />
+                  <span class="toggle-switch"></span>
+                  <span class="attack-name">📜 XSS Attack</span>
+                </label>
+                <span class="attack-tag atk-med">MED</span>
+              </div>
+              <div class="attack-controls hidden" id="ctrl-xss">
+                <label class="form-label small">Intensity</label>
+                <input type="range" class="intensity-slider" id="int-xss" min="1" max="10" value="3" />
+                <span class="intensity-val" id="intval-xss">3</span>
+              </div>
+            </div>
+
+            <div class="attack-item">
+              <div class="attack-header">
+                <label class="toggle-label">
+                  <input type="checkbox" class="attack-toggle" id="atk-traversal" />
+                  <span class="toggle-switch"></span>
+                  <span class="attack-name">📁 Dir Traversal</span>
+                </label>
+                <span class="attack-tag atk-high">HIGH</span>
+              </div>
+              <div class="attack-controls hidden" id="ctrl-traversal">
+                <label class="form-label small">Intensity</label>
+                <input type="range" class="intensity-slider" id="int-traversal" min="1" max="10" value="3" />
+                <span class="intensity-val" id="intval-traversal">3</span>
+              </div>
+            </div>
+
+            <div class="attack-item">
+              <div class="attack-header">
+                <label class="toggle-label">
+                  <input type="checkbox" class="attack-toggle" id="atk-ddos" />
+                  <span class="toggle-switch"></span>
+                  <span class="attack-name">🌊 DDoS Flood</span>
+                </label>
+                <span class="attack-tag atk-crit">CRIT</span>
+              </div>
+              <div class="attack-controls hidden" id="ctrl-ddos">
+                <label class="form-label small">Intensity</label>
+                <input type="range" class="intensity-slider" id="int-ddos" min="1" max="10" value="7" />
+                <span class="intensity-val" id="intval-ddos">7</span>
+              </div>
+            </div>
+
+            <div class="attack-item">
+              <div class="attack-header">
+                <label class="toggle-label">
+                  <input type="checkbox" class="attack-toggle" id="atk-privesc" />
+                  <span class="toggle-switch"></span>
+                  <span class="attack-name">👑 Privilege Esc.</span>
+                </label>
+                <span class="attack-tag atk-crit">CRIT</span>
+              </div>
+              <div class="attack-controls hidden" id="ctrl-privesc">
+                <label class="form-label small">Intensity</label>
+                <input type="range" class="intensity-slider" id="int-privesc" min="1" max="10" value="2" />
+                <span class="intensity-val" id="intval-privesc">2</span>
+              </div>
+            </div>
+
+            <div class="attack-item">
+              <div class="attack-header">
+                <label class="toggle-label">
+                  <input type="checkbox" class="attack-toggle" id="atk-c2" />
+                  <span class="toggle-switch"></span>
+                  <span class="attack-name">🕵 C2 Beaconing</span>
+                </label>
+                <span class="attack-tag atk-crit">CRIT</span>
+              </div>
+              <div class="attack-controls hidden" id="ctrl-c2">
+                <label class="form-label small">Intensity</label>
+                <input type="range" class="intensity-slider" id="int-c2" min="1" max="10" value="3" />
+                <span class="intensity-val" id="intval-c2">3</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Anomaly ratio -->
+        <section class="config-section">
+          <h3 class="section-title">
+            <span class="section-icon">⚖️</span> Normal vs Anomalous Ratio
+          </h3>
+          <div class="form-group">
+            <div class="ratio-display">
+              <span class="ratio-normal" id="ratio-normal-label">Normal: 80%</span>
+              <span class="ratio-attack" id="ratio-attack-label">Attack: 20%</span>
+            </div>
+            <input type="range" id="anomaly-ratio" min="0" max="50" value="20" />
+            <div class="ratio-bar-wrap">
+              <div class="ratio-bar-normal" id="ratio-bar-n" style="width:80%"></div>
+              <div class="ratio-bar-attack" id="ratio-bar-a" style="width:20%"></div>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- end sidebar-scroll -->
+    </aside>
+
+    <!-- Main Preview -->
+    <main class="main-panel">
+      <div class="preview-header">
+        <h2 class="preview-title">Log Preview</h2>
+        <div class="preview-controls">
+          <select id="preview-format" class="select-input">
+            <option value="json">JSON Format</option>
+            <option value="table">Table View</option>
+            <option value="syslog">Syslog Format</option>
+          </select>
+          <button class="btn btn-ghost" id="btn-clear">🗑 Clear</button>
+        </div>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="stats-bar" id="stats-bar">
+        <div class="stat-item">
+          <span class="stat-label">Total</span>
+          <span class="stat-value" id="st-total">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Normal</span>
+          <span class="stat-value green" id="st-normal">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Anomalous</span>
+          <span class="stat-value red" id="st-anomalous">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Critical</span>
+          <span class="stat-value orange" id="st-critical">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Sources</span>
+          <span class="stat-value blue" id="st-sources">0</span>
+        </div>
+      </div>
+
+      <!-- Log output -->
+      <div class="log-output" id="log-output">
+        <div class="log-placeholder">
+          <div class="placeholder-icon">⚡</div>
+          <div class="placeholder-title">Ready to Generate</div>
+          <div class="placeholder-sub">Configure your settings on the left and click <strong>Generate Logs</strong></div>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="progress-wrap" id="progress-wrap" style="display:none">
+        <div class="progress-bar" id="progress-bar"></div>
+        <span class="progress-label" id="progress-label">Generating...</span>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+python-multipart
+httpx
+pandas
+python-dateutil
+pydantic
+faker
+scikit-learn
+numpy
+google-generativeai
+python-dotenv

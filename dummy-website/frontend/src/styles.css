@@ -1,0 +1,37 @@
+:root {
+  --bg: #0a0e1a;
+  --card: #141b2d;
+  --border: #2a3550;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #00d4ff;
+  --green: #10b981;
+  --red: #ef4444;
+  --violet: #7c3aed;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Inter, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+a { color: var(--accent); }
+.shell { max-width: 1100px; margin: 0 auto; padding: 24px; }
+.top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.brand { font-size: 22px; font-weight: 800; }
+.brand span { color: var(--accent); }
+.badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.4); }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.card h2 { font-size: 15px; margin-bottom: 12px; }
+.card p { color: var(--muted); font-size: 13px; line-height: 1.6; }
+.svc { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+.login-form { display: flex; flex-direction: column; gap: 12px; max-width: 360px; margin: 40px auto; }
+input { background: #0d1220; border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 8px; }
+button { background: linear-gradient(135deg, var(--violet), #5b21b6); color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+button.secondary { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+.log-box { font-family: 'JetBrains Mono', monospace; font-size: 11px; max-height: 320px; overflow-y: auto; background: #0d1220; border-radius: 8px; padding: 12px; }
+.log-line { padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--muted); }
+.log-line.critical { color: var(--red); }
+.stats { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; min-width: 120px; }
+.stat b { display: block; font-size: 22px; font-family: 'JetBrains Mono', monospace; }
+.stat span { font-size: 11px; color: var(--muted); text-transform: uppercase; }
