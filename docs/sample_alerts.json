@@ -1,0 +1,114 @@
+[
+  {
+    "threat": "log4shell",
+    "severity": "CRITICAL",
+    "title": "Log4Shell on portal-01 from 221.231.180.13 — matches CVE-2021-44228 (CVSS 10.0)",
+    "src_ip": "221.231.180.13",
+    "host": "portal-01",
+    "software": "Log4j2",
+    "version": "2.14.1",
+    "count": 1,
+    "cve": {
+      "id": "CVE-2021-44228",
+      "cvss": 10.0,
+      "severity": "CRITICAL",
+      "summary": "Apache Log4j2 JNDI 'Log4Shell' remote code execution.",
+      "source": "fallback",
+      "checked_at": "2026-06-05T09:45:45Z"
+    },
+    "recommended_action": "Patch Log4j2 to >=2.17.1, set log4j2.formatMsgNoLookups=true, and hunt for outbound JNDI/LDAP callbacks indicating exploitation.",
+    "ai_explanation": "Log4Shell detected from 221.231.180.13 on host portal-01 (1 related events). Correlated with CVE-2021-44228 (CVSS 10.0): Apache Log4j2 JNDI 'Log4Shell' remote code execution.",
+    "ai_remediation": "Patch Log4j2 to >=2.17.1, set log4j2.formatMsgNoLookups=true, and hunt for outbound JNDI/LDAP callbacks indicating exploitation."
+  },
+  {
+    "threat": "brute_force_success",
+    "severity": "CRITICAL",
+    "title": "Brute Force Success on portal-01 from 191.20.223.46 — matches CVE-2020-15778 (CVSS 7.8)",
+    "src_ip": "191.20.223.46",
+    "host": "portal-01",
+    "software": "OpenSSH",
+    "version": "8.1",
+    "count": 12,
+    "cve": {
+      "id": "CVE-2020-15778",
+      "cvss": 7.8,
+      "severity": "HIGH",
+      "summary": "OpenSSH scp client command injection via crafted filenames (<=8.3p1).",
+      "source": "fallback",
+      "checked_at": "2026-06-05T09:45:45Z"
+    },
+    "recommended_action": "Treat the account as compromised: rotate credentials, kill active sessions, block the source IP, and review actions taken after the successful login.",
+    "ai_explanation": "Brute Force Success detected from 191.20.223.46 on host portal-01 (12 related events). Correlated with CVE-2020-15778 (CVSS 7.8): OpenSSH scp client command injection via crafted filenames (<=8.3p1).",
+    "ai_remediation": "Treat the account as compromised: rotate credentials, kill active sessions, block the source IP, and review actions taken after the successful login."
+  },
+  {
+    "threat": "vulnerable_component",
+    "severity": "CRITICAL",
+    "title": "Vulnerable Component on stack — matches CVE-2021-44228 (CVSS 10.0)",
+    "src_ip": null,
+    "host": null,
+    "software": "Log4j2",
+    "version": "2.14.1",
+    "count": 1,
+    "cve": {
+      "id": "CVE-2021-44228",
+      "cvss": 10.0,
+      "severity": "CRITICAL",
+      "summary": "Apache Log4j2 JNDI 'Log4Shell' remote code execution.",
+      "source": "fallback",
+      "checked_at": "2026-06-05T09:45:45Z"
+    },
+    "recommended_action": "Upgrade Log4j2 2.14.1 to a fixed release.",
+    "ai_explanation": "Vulnerable Component detected from None on host None (1 related events). Correlated with CVE-2021-44228 (CVSS 10.0): Apache Log4j2 JNDI 'Log4Shell' remote code execution.",
+    "ai_remediation": "Upgrade Log4j2 2.14.1 to a fixed release."
+  },
+  {
+    "threat": "path_traversal",
+    "severity": "HIGH",
+    "title": "Path Traversal on portal-01 from 207.82.50.204 — matches CVE-2021-41773 (CVSS 7.5)",
+    "src_ip": "207.82.50.204",
+    "host": "portal-01",
+    "software": "Apache",
+    "version": "2.4.49",
+    "count": 1,
+    "cve": {
+      "id": "CVE-2021-41773",
+      "cvss": 7.5,
+      "severity": "HIGH",
+      "summary": "Apache HTTP Server 2.4.49 path traversal and RCE via crafted URLs.",
+      "source": "fallback",
+      "checked_at": "2026-06-05T09:45:45Z"
+    },
+    "recommended_action": "Patch the web server, normalize/validate file paths, and restrict filesystem access.",
+    "ai_explanation": "Path Traversal detected from 207.82.50.204 on host portal-01 (1 related events). Correlated with CVE-2021-41773 (CVSS 7.5): Apache HTTP Server 2.4.49 path traversal and RCE via crafted URLs.",
+    "ai_remediation": "Patch the web server, normalize/validate file paths, and restrict filesystem access."
+  },
+  {
+    "threat": "sql_injection",
+    "severity": "HIGH",
+    "title": "Sql Injection on portal-01 from 180.56.109.132",
+    "src_ip": "180.56.109.132",
+    "host": "portal-01",
+    "software": null,
+    "version": null,
+    "count": 1,
+    "cve": null,
+    "recommended_action": "Use parameterized queries, validate input, and deploy a WAF rule for the source IP.",
+    "ai_explanation": "Sql Injection detected from 180.56.109.132 on host portal-01 (1 related events).",
+    "ai_remediation": "Use parameterized queries, validate input, and deploy a WAF rule for the source IP."
+  },
+  {
+    "threat": "idor_enumeration",
+    "severity": "HIGH",
+    "title": "Idor Enumeration on portal-01 from 20.128.129.175",
+    "src_ip": "20.128.129.175",
+    "host": "portal-01",
+    "software": null,
+    "version": null,
+    "count": 4,
+    "cve": null,
+    "recommended_action": "Enforce per-object authorization checks and add rate limiting on object access.",
+    "ai_explanation": "Idor Enumeration detected from 20.128.129.175 on host portal-01 (4 related events).",
+    "ai_remediation": "Enforce per-object authorization checks and add rate limiting on object access."
+  }
+]

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEMO WEBSITE (vulnerable app)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>DEMO WEBSITE <span class="tag warn">App 1 · intentionally vulnerable</span></h1>
+    <p class="sub">A working dummy app (login, search, profiles, files) that emits live logs of every action — good and malicious.</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Use the app</h2>
+
+      <div class="card">
+        <h3>Login <span class="muted">(no rate-limit, user enumeration)</span></h3>
+        <input id="u" placeholder="username (try admin / admin123)" />
+        <input id="p" type="password" placeholder="password" />
+        <button id="loginBtn">Login</button>
+        <div id="loginOut" class="out"></div>
+      </div>
+
+      <div class="card">
+        <h3>Product search <span class="muted">(SQL-injectable)</span></h3>
+        <input id="q" placeholder="e.g. widget  or  1' OR '1'='1" />
+        <button id="searchBtn">Search</button>
+        <div id="searchOut" class="out"></div>
+      </div>
+
+      <div class="card">
+        <h3>View profile by ID <span class="muted">(IDOR)</span></h3>
+        <input id="uid" type="number" value="1" />
+        <button id="profileBtn">Fetch</button>
+        <div id="profileOut" class="out"></div>
+      </div>
+
+      <div class="card">
+        <h3>Download file <span class="muted">(path traversal)</span></h3>
+        <input id="fname" value="readme.txt" placeholder="try ../../../../etc/passwd" />
+        <button id="fileBtn">Download</button>
+        <div id="fileOut" class="out"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Traffic simulator</h2>
+      <p class="muted">Generate continuous normal + attack activity so the Evaluator has a live stream to monitor.</p>
+
+      <label>Duration (seconds)
+        <input id="dur" type="number" value="60" min="1" /></label>
+      <label>Normal events / second
+        <input id="rate" type="number" value="20" min="0" /></label>
+      <label>Brute-force attempts per incident
+        <input id="bfn" type="number" value="200" min="1" /></label>
+
+      <fieldset>
+        <legend>Attack patterns</legend>
+        <label class="cb"><input type="checkbox" class="atk" value="brute_force" checked /> Brute force (login)</label>
+        <label class="cb"><input type="checkbox" class="atk" value="sql_injection" checked /> SQL injection</label>
+        <label class="cb"><input type="checkbox" class="atk" value="path_traversal" checked /> Path traversal</label>
+        <label class="cb"><input type="checkbox" class="atk" value="log4shell" checked /> Log4Shell (JNDI)</label>
+        <label class="cb"><input type="checkbox" class="atk" value="idor" checked /> IDOR enumeration</label>
+      </fieldset>
+
+      <div class="row">
+        <button id="simStart" class="primary">Start simulator</button>
+        <button id="simStop">Stop</button>
+      </div>
+      <div id="simStatus" class="stats muted">Simulator idle.</div>
+
+      <h3>Live log tail</h3>
+      <pre id="tail" class="sample"></pre>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

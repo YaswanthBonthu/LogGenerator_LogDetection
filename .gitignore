@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Secrets / local config
+.env
+*.env
+.claude/settings.local.json
+
+# Runtime artifacts (regenerated at runtime)
+app1-vulnerable-app/logs/
+app2-log-evaluator/cache/
+
+# Editor / tooling
+.vscode/
+.idea/
+.DS_Store

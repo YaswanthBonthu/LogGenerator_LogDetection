@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log Evaluator — App 2</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Log Evaluator <span class="tag">App 2</span></h1>
+      <p class="sub">Continuously monitors App 1's live logs, detects threats, correlates CVEs (NVD) and explains them with GPT-4o.</p>
+    </div>
+    <div id="monBadge" class="badge">monitor: …</div>
+  </header>
+
+  <section class="kpis" id="kpis"></section>
+
+  <main>
+    <section class="panel">
+      <h2>Live insights</h2>
+      <div class="subgrid">
+        <div><h3>Events by source</h3><div id="bySource" class="bars"></div></div>
+        <div><h3>Alerts by severity</h3><div id="bySev" class="bars"></div></div>
+        <div><h3>Threats detected</h3><div id="byThreat" class="bars"></div></div>
+        <div><h3>Top source IPs</h3><div id="topIps" class="bars"></div></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Prioritized alerts <span id="alertCount" class="muted"></span></h2>
+      <div id="alerts" class="alerts muted">Waiting for activity… start the simulator in App 1.</div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
